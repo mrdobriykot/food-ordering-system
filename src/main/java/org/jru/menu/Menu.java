@@ -1,4 +1,4 @@
-package org.jru;
+package org.jru.menu;
 
 import org.jru.cuisine.Cuisine;
 import org.jru.cuisine.ItalianCuisine;
