@@ -1,8 +1,9 @@
 package org.jru.lunch.mexican;
 
-import org.jru.item.PaidItem;
+import org.jru.item.CourseItem;
 
-public enum MexicanCourse implements PaidItem {
+
+public enum MexicanCourse implements CourseItem {
     ;
 
     @Override
