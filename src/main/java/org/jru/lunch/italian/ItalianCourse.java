@@ -7,7 +7,7 @@ public enum ItalianCourse implements CourseItem {
 
     @Override
     public String getName() {
-        return null;
+        return name();
     }
 
     @Override

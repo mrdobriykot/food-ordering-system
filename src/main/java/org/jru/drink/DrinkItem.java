@@ -16,11 +16,11 @@ public enum DrinkItem implements PaidItem {
 
     @Override
     public String getName() {
-        return null;
+        return name();
     }
 
     @Override
     public Float getPrice() {
-        return null;
+        return price;
     }
 }

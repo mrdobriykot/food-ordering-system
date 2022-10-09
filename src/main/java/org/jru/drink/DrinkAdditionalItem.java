@@ -9,6 +9,6 @@ public enum DrinkAdditionalItem implements Item {
 
     @Override
     public String getName() {
-        return null;
+        return name();
     }
 }
