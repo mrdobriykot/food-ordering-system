@@ -1,17 +1,16 @@
 package org.jru;
 
 
-import org.jru.cuisine.Cuisine;
-import org.jru.cuisine.ItalianCuisine;
-import org.jru.cuisine.MexicanCuisine;
-import org.jru.cuisine.PolishCuisine;
+import org.jru.drink.DrinkItem;
 import org.jru.item.CourseItem;
+import org.jru.item.DessertItem;
 import org.jru.menu.Menu;
 
 import java.util.Scanner;
 
 public class View {
     Scanner scanner = new Scanner(System.in);
+    Menu menu = new Menu();
 
     public int displayMenu() {
         System.out.println("**************** Welcome To our Cafe ****************");
@@ -27,7 +26,6 @@ public class View {
     }
     
     public int displayCuisineMenu() {
-        Menu menu = new Menu();
         System.out.println("**************** Welcome To our Cafe ****************");
         System.out.println("=====================================================");
         System.out.println("           Please choose cuisine:       ");
@@ -42,8 +40,7 @@ public class View {
 
 
 
-    public int italianDisplayMenu() {
-        Menu menu = new Menu();
+    public CourseItem italianDisplayMenu() {
         System.out.println("**************** Welcome To our Cafe ****************");
         System.out.println("=====================================================");
         System.out.println("           Please choose course:       ");
@@ -56,21 +53,38 @@ public class View {
         System.out.println("======================================================");
         System.out.print("          What Do you Want to Order Today? (1/2/3): ");
         int choose = scanner.nextInt();
-        return choose;
+        return menu.getItalianCuisine().getCourses().get(choose-1);
+    }
+
+    public DessertItem italianDisplayDessertMenu() {
+        System.out.println("**************** Welcome To our Cafe ****************");
+        System.out.println("=====================================================");
+        System.out.println("           Please choose course:       ");
+        System.out.println("           1. " + menu.getItalianCuisine().getDeserts().get(0)
+                + " price: " + menu.getItalianCuisine().getDeserts().get(0).getPrice());
+        System.out.println("           2. " + menu.getItalianCuisine().getDeserts().get(1)
+                + " price: " + menu.getItalianCuisine().getDeserts().get(1).getPrice());
+        System.out.println("           3. " + menu.getItalianCuisine().getDeserts().get(2)
+                + " price: " + menu.getItalianCuisine().getDeserts().get(2).getPrice());
+        System.out.println("======================================================");
+        System.out.print("          What Do you Want to Order Today? (1/2/3): ");
+        int choose = scanner.nextInt();
+        return menu.getItalianCuisine().getDeserts().get(choose-1);
     }
 
 
 
-    public void displayDrinkMenu() {
-        Menu menu = new Menu();
+    public DrinkItem displayDrinkMenu() {
         System.out.println("**************** Welcome To our Cafe ****************");
         System.out.println("=====================================================");
-        System.out.println("           Please choose cuisine:       ");
+        System.out.println("           Please choose drink:       ");
         System.out.println("           1. " + menu.getDrinks().get(0));
         System.out.println("           2. " + menu.getDrinks().get(1));
         System.out.println("           3. " + menu.getDrinks().get(2));
         System.out.println("======================================================");
-        System.out.println("          What Do you Want to Order Today??");
+        System.out.print("          What Do you Want to Order Today? (1/2/3): ");
+        int choose = scanner.nextInt();
+        return menu.getDrinks().get(choose-1);
     }
     
 }
