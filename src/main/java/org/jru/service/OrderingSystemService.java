@@ -33,18 +33,20 @@ public class OrderingSystemService {
             case 1: {
                 int cuisineChoose = view.displayCuisineMenu();
                 if (cuisineChoose == 1) {
-                    italianCuisine();
+                    orderItalianCuisine();
                 }
                 if (cuisineChoose == 2) {
-                    italianCuisine();
+                    orderItalianCuisine();
                 }
                 if (cuisineChoose == 3) {
-                    italianCuisine();
+                    orderItalianCuisine();
                 }
                 break;
             }
             case 2: {
-                break;}
+                createOrderDrink(createDrink(view.displayDrinkMenu()));
+                break;
+            }
 
             case  3: {
                 italianCuisineWithDrink();
@@ -54,35 +56,40 @@ public class OrderingSystemService {
 
     }
 
-    private void italianCuisine() {
-        CreateOrder(CreateLunch(view.italianDisplayMenu(), view.italianDisplayDessertMenu()));
+    private void orderItalianCuisine() {
+        createOrder(createLunch(view.italianDisplayMenu(), view.italianDisplayDessertMenu()));
     }
 
     private void italianCuisineWithDrink() {
-        CreateOrderWithDrink(CreateLunch(view.italianDisplayMenu(), view.italianDisplayDessertMenu()),
-                CreateDrink(view.displayDrinkMenu()));
+        createOrderWithDrink(createLunch(view.italianDisplayMenu(), view.italianDisplayDessertMenu()),
+                createDrink(view.displayDrinkMenu()));
     }
 
-    private void CreateOrder(Lunch lunch) {
+    private void createOrderDrink(Drink drink) {
+        order = new OrderBuilder().drink(drink).build();
+        System.out.println("Your order are: " + drink.getDrinkItem());
+    }
+
+    private void createOrder(Lunch lunch) {
         order = new OrderBuilder().lunch(lunch).build();
         System.out.println("Your order are: " + lunch.getCourse() + " " + lunch.getDessert());
     }
-    private void CreateOrderWithDrink(Lunch lunch, Drink drink) {
+    private void createOrderWithDrink(Lunch lunch, Drink drink) {
         order = new OrderBuilder().lunch(lunch).drink(drink).build();
         System.out.println("Your order are: " + lunch.getCourse() + " " + lunch.getDessert() + " " + drink.getDrinkItem());
     }
 
-    private Lunch CreateLunch(CourseItem courseItem, DessertItem dessertItem) {
+    private Lunch createLunch(CourseItem courseItem, DessertItem dessertItem) {
         Lunch lunch = new LunchBuilder().course(courseItem).dessert(dessertItem).build();
         return lunch;
     }
 
-    private Drink CreateDrink(DrinkItem drinkItem){
+    private Drink createDrink(DrinkItem drinkItem){
         Drink drink = new DrinkBuilder().drink(drinkItem).build();
         return drink;
     }
 
-    private Drink CreateDrinkWithAdditionalElem(DrinkItem drinkItem, DrinkAdditionalItem drinkAdditionalItem){
+    private Drink createDrinkWithAdditionalElem(DrinkItem drinkItem, DrinkAdditionalItem drinkAdditionalItem){
         Drink drink = new DrinkBuilder().drink(drinkItem).additionalItem(drinkAdditionalItem).build();
         return drink;
     }
