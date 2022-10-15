@@ -2,7 +2,6 @@ package org.jru.cuisine;
 
 import org.jru.item.CourseItem;
 import org.jru.item.DessertItem;
-import org.jru.item.PaidItem;
 
 import java.util.List;
 

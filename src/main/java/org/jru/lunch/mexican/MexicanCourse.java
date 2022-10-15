@@ -4,7 +4,15 @@ import org.jru.item.CourseItem;
 
 
 public enum MexicanCourse implements CourseItem {
-    ;
+    TAKO(3F),
+    ENCHILADA(5F),
+    BURRITO(6F);
+
+    private final Float price;
+
+    MexicanCourse(Float price) {
+        this.price = price;
+    }
 
     @Override
     public String getName() {
@@ -13,6 +21,6 @@ public enum MexicanCourse implements CourseItem {
 
     @Override
     public Float getPrice() {
-        return null;
+        return price;
     }
 }

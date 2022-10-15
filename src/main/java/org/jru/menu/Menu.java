@@ -47,4 +47,12 @@ public class Menu {
     public Cuisine getMexicanCuisine() {
         return mexicanCuisine;
     }
+
+    public List<DrinkItem> getDrinks() {
+        return drinks;
+    }
+
+    public List<DrinkAdditionalItem> getDrinkAdditionalItems() {
+        return drinkAdditionalItems;
+    }
 }

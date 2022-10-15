@@ -2,11 +2,16 @@ package org.jru.drink;
 
 import org.jru.item.Item;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Drink {
     private DrinkItem drinkItem;
     private List<Item> drinkAdditionalItem;
+
+    public Drink() {
+        drinkAdditionalItem = new ArrayList<>();
+    }
 
     public DrinkItem getDrinkItem() {
         return drinkItem;
