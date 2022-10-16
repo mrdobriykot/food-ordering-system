@@ -12,19 +12,13 @@ import org.jru.drink.DrinkAdditionalItem;
 import org.jru.drink.DrinkItem;
 import org.jru.item.CourseItem;
 import org.jru.item.DessertItem;
-import org.jru.item.Item;
 import org.jru.lunch.Lunch;
-import org.jru.lunch.italian.ItalianCourse;
-import org.jru.lunch.italian.ItalianDessert;
 import org.jru.order.Order;
 
-import java.util.Scanner;
 
 public class OrderingSystemService {
     private View view = new View();
     private Order order;
-    private Lunch lunch;
-    private Cuisine cuisine = new ItalianCuisine();
 
 
     public void menuNavigation() {
@@ -36,18 +30,23 @@ public class OrderingSystemService {
                     orderItalianCuisine();
                 }
                 if (cuisineChoose == 2) {
-                    orderItalianCuisine();
+                    orderPolishCuisine();
                 }
                 if (cuisineChoose == 3) {
-                    orderItalianCuisine();
+                    orderMexicanCuisine();
                 }
                 break;
             }
             case 2: {
-                createOrderDrink(createDrink(view.displayDrinkMenu()));
+                if (view.chooseDrinkMenu() == 1)
+                {
+                    createOrderDrink(createDrinkWithAdditionalElem(view.displayDrinkMenu(),
+                            view.displayAdditionalDrinkMenu()));
+                } else {
+                    createOrderDrink(createDrink(view.displayDrinkMenu()));
+                }
                 break;
             }
-
             case  3: {
                 italianCuisineWithDrink();
                 break;
@@ -58,6 +57,14 @@ public class OrderingSystemService {
 
     private void orderItalianCuisine() {
         createOrder(createLunch(view.italianDisplayMenu(), view.italianDisplayDessertMenu()));
+    }
+
+    private void orderMexicanCuisine() {
+        createOrder(createLunch(view.mexicanDisplayMenu(), view.mexicanDisplayDessertMenu()));
+    }
+
+    private void orderPolishCuisine() {
+        createOrder(createLunch(view.polishDisplayMenu(), view.polishDisplayDessertMenu()));
     }
 
     private void italianCuisineWithDrink() {
