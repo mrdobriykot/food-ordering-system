@@ -1,6 +1,4 @@
-# Решение задачи 
-
-TASK DESCRIPTIONS
+# TASK DESCRIPTIONS
 
 #### Food ordering system  
 Please follow the requirements listed below:
