@@ -40,7 +40,6 @@ public class View {
     }
 
 
-
     public CourseItem italianDisplayMenu() {
         System.out.println("**************** Welcome To our Cafe ****************");
         System.out.println("=====================================================");

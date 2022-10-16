@@ -5,8 +5,6 @@ import org.jru.View;
 import org.jru.builder.DrinkBuilder;
 import org.jru.builder.LunchBuilder;
 import org.jru.builder.OrderBuilder;
-import org.jru.cuisine.Cuisine;
-import org.jru.cuisine.ItalianCuisine;
 import org.jru.drink.Drink;
 import org.jru.drink.DrinkAdditionalItem;
 import org.jru.drink.DrinkItem;
@@ -48,11 +46,26 @@ public class OrderingSystemService {
                 break;
             }
             case  3: {
-                italianCuisineWithDrink();
+                int cuisineChoose = view.displayCuisineMenu();
+                if (cuisineChoose == 1) {
+                    orderItalianCuisine();
+                }
+                if (cuisineChoose == 2) {
+                    orderPolishCuisine();
+                }
+                if (cuisineChoose == 3) {
+                    orderMexicanCuisine();
+                }
+                if (view.chooseDrinkMenu() == 1)
+                {
+                    createOrderDrink(createDrinkWithAdditionalElem(view.displayDrinkMenu(),
+                            view.displayAdditionalDrinkMenu()));
+                } else {
+                    createOrderDrink(createDrink(view.displayDrinkMenu()));
+                }
                 break;
             }
         }
-
     }
 
     private void orderItalianCuisine() {
@@ -67,14 +80,13 @@ public class OrderingSystemService {
         createOrder(createLunch(view.polishDisplayMenu(), view.polishDisplayDessertMenu()));
     }
 
-    private void italianCuisineWithDrink() {
-        createOrderWithDrink(createLunch(view.italianDisplayMenu(), view.italianDisplayDessertMenu()),
-                createDrink(view.displayDrinkMenu()));
-    }
-
     private void createOrderDrink(Drink drink) {
         order = new OrderBuilder().drink(drink).build();
-        System.out.println("Your order are: " + drink.getDrinkItem());
+        if (!drink.getDrinkAdditionalItem().isEmpty()) {
+            System.out.println("Your order are: " + drink.getDrinkItem() + " " + drink.getDrinkAdditionalItem().get(0));
+        } else {
+            System.out.println("Your order are: " + drink.getDrinkItem());
+        }
     }
 
     private void createOrder(Lunch lunch) {
