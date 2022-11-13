@@ -21,7 +21,7 @@ import java.util.List;
 
 public class OrderingSystemService {
     private View view = new View();
-    private Menu menu;
+    private Menu menu = new Menu();
     private Order order;
 
 
@@ -31,6 +31,7 @@ public class OrderingSystemService {
         Lunch lunch = cuisine == null ? null : chooseLunch(cuisine);
         Drink drink = chooseDrink();
         order = new OrderBuilder().lunch(lunch).drink(drink).build();
+        view.printOrder(order);
     }
 
     private Cuisine chooseCuisine() {

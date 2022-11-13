@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Drink {
     private DrinkItem drinkItem;
-    private List<Item> drinkAdditionalItem;
+    private List<DrinkAdditionalItem> drinkAdditionalItem;
 
     public Drink() {
         drinkAdditionalItem = new ArrayList<>();
@@ -21,11 +21,7 @@ public class Drink {
         this.drinkItem = drinkItem;
     }
 
-    public List<Item> getDrinkAdditionalItem() {
+    public List<DrinkAdditionalItem> getDrinkAdditionalItem() {
         return drinkAdditionalItem;
-    }
-
-    public void setDrinkAdditionalItem(List<Item> drinkAdditionalItem) {
-        this.drinkAdditionalItem = drinkAdditionalItem;
     }
 }

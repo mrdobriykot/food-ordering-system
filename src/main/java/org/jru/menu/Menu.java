@@ -14,9 +14,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Menu {
-    private Cuisine italianCuisine;
-    private Cuisine polishCuisine;
-    private Cuisine mexicanCuisine;
+    private ItalianCuisine italianCuisine;
+    private PolishCuisine polishCuisine;
+    private MexicanCuisine mexicanCuisine;
     private List<DrinkItem> drinks;
     private List<DrinkAdditionalItem> drinkAdditionalItems;
     private List <Cuisine> cuisines;
@@ -31,6 +31,7 @@ public class Menu {
     }
 
     public List<Cuisine> getCuisines() {
+
         return cuisines;
     }
 

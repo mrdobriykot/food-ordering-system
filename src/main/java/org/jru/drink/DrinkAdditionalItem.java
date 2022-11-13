@@ -3,8 +3,8 @@ package org.jru.drink;
 import org.jru.item.Item;
 
 public enum DrinkAdditionalItem implements Item {
-    ICE_CUBES("Кубики льда"),
-    LEMON("Лимон");
+    ICE_CUBES("Ice Cubes"),
+    LEMON("Lemon");
 
     private String name;
     DrinkAdditionalItem(String name) {
@@ -13,6 +13,6 @@ public enum DrinkAdditionalItem implements Item {
 
     @Override
     public String getName() {
-        return name();
+        return name;
     }
 }

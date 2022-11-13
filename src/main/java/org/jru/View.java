@@ -2,13 +2,16 @@ package org.jru;
 
 
 import org.jru.cuisine.Cuisine;
+import org.jru.drink.Drink;
 import org.jru.drink.DrinkAdditionalItem;
 import org.jru.drink.DrinkItem;
 import org.jru.item.CourseItem;
 import org.jru.item.DessertItem;
 import org.jru.item.Item;
 import org.jru.item.PaidItem;
+import org.jru.lunch.Lunch;
 import org.jru.menu.Menu;
+import org.jru.order.Order;
 
 import java.util.List;
 import java.util.Scanner;
@@ -36,6 +39,7 @@ public class View {
         System.out.println("Меню:");
         List<Cuisine> cuisines = menu.getCuisines();
         cuisines.forEach(this::printCuisineMenu);
+        printDrinks();
 
     }
 
@@ -105,6 +109,14 @@ public class View {
         return dessertId;
     }
 
+    private void printDrinks() {
+        System.out.println("Напитки:");
+        printPaidItem(menu.getDrinks());
+        System.out.println("К напиткам можно добавить:");
+        printItem(menu.getDrinkAdditionalItems());
+        System.out.println();
+    }
+
     public int getDrinkId(List<DrinkItem> drinks) {
         System.out.println("Выберите напиток:");
         System.out.println(NOTHING);
@@ -139,5 +151,27 @@ public class View {
         return additionalItemId;
     }
 
-
+    public void printOrder(Order order) {
+        Lunch lunch = order.getLunch();
+        Drink drink = order.getDrink();
+        System.out.println("Ваш Заказ:");
+        double sumOrder = 0;
+        if (lunch != null) {
+            System.out.println(lunch.getCourse().getName());
+            System.out.println(lunch.getDessert().getName());
+            sumOrder += lunch.getCourse().getPrice() + lunch.getDessert().getPrice();
+        }
+        if (drink != null) {
+            StringBuilder result = new StringBuilder();
+            result.append(drink.getDrinkItem().getName());
+            if (!drink.getDrinkAdditionalItem().isEmpty()) {
+                for (DrinkAdditionalItem drinkAdditionalItem : drink.getDrinkAdditionalItem()) {
+                    result.append(" with ").append(drinkAdditionalItem.getName());
+                }
+            }
+            System.out.println(result);
+            sumOrder += drink.getDrinkItem().getPrice();
+        }
+        System.out.println("Сумма заказа: " + sumOrder);
+    }
 }

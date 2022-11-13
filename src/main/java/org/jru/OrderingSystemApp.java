@@ -4,7 +4,9 @@ import org.jru.service.OrderingSystemService;
 
 public class OrderingSystemApp {
     public static void main(String[] args) {
+        View view = new View();
         OrderingSystemService service = new OrderingSystemService();
-        service.menuNavigation();
+        view.showMenu();
+        service.makeOrder();
     }
 }
