@@ -5,112 +5,91 @@ import org.jru.View;
 import org.jru.builder.DrinkBuilder;
 import org.jru.builder.LunchBuilder;
 import org.jru.builder.OrderBuilder;
+import org.jru.cuisine.Cuisine;
 import org.jru.drink.Drink;
 import org.jru.drink.DrinkAdditionalItem;
 import org.jru.drink.DrinkItem;
 import org.jru.item.CourseItem;
 import org.jru.item.DessertItem;
 import org.jru.lunch.Lunch;
+import org.jru.menu.Menu;
 import org.jru.order.Order;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class OrderingSystemService {
     private View view = new View();
+    private Menu menu;
     private Order order;
 
 
-    public void menuNavigation() {
-        int choose = view.displayMenu();
-        switch (choose) {
-            case 1: {
-                int cuisineChoose = view.displayCuisineMenu();
-                if (cuisineChoose == 1) {
-                    orderItalianCuisine();
-                }
-                if (cuisineChoose == 2) {
-                    orderPolishCuisine();
-                }
-                if (cuisineChoose == 3) {
-                    orderMexicanCuisine();
-                }
-                break;
-            }
-            case 2: {
-                if (view.chooseDrinkMenu() == 1)
-                {
-                    createOrderDrink(createDrinkWithAdditionalElem(view.displayDrinkMenu(),
-                            view.displayAdditionalDrinkMenu()));
-                } else {
-                    createOrderDrink(createDrink(view.displayDrinkMenu()));
-                }
-                break;
-            }
-            case  3: {
-                int cuisineChoose = view.displayCuisineMenu();
-                if (cuisineChoose == 1) {
-                    orderItalianCuisine();
-                }
-                if (cuisineChoose == 2) {
-                    orderPolishCuisine();
-                }
-                if (cuisineChoose == 3) {
-                    orderMexicanCuisine();
-                }
-                if (view.chooseDrinkMenu() == 1)
-                {
-                    createOrderDrink(createDrinkWithAdditionalElem(view.displayDrinkMenu(),
-                            view.displayAdditionalDrinkMenu()));
-                } else {
-                    createOrderDrink(createDrink(view.displayDrinkMenu()));
-                }
-                break;
-            }
-        }
-    }
 
-    private void orderItalianCuisine() {
-        createOrder(createLunch(view.italianDisplayMenu(), view.italianDisplayDessertMenu()));
-    }
-
-    private void orderMexicanCuisine() {
-        createOrder(createLunch(view.mexicanDisplayMenu(), view.mexicanDisplayDessertMenu()));
-    }
-
-    private void orderPolishCuisine() {
-        createOrder(createLunch(view.polishDisplayMenu(), view.polishDisplayDessertMenu()));
-    }
-
-    private void createOrderDrink(Drink drink) {
-        order = new OrderBuilder().drink(drink).build();
-        if (!drink.getDrinkAdditionalItem().isEmpty()) {
-            System.out.println("Your order are: " + drink.getDrinkItem() + " " + drink.getDrinkAdditionalItem().get(0));
-        } else {
-            System.out.println("Your order are: " + drink.getDrinkItem());
-        }
-    }
-
-    private void createOrder(Lunch lunch) {
-        order = new OrderBuilder().lunch(lunch).build();
-        System.out.println("Your order are: " + lunch.getCourse() + " " + lunch.getDessert());
-    }
-    private void createOrderWithDrink(Lunch lunch, Drink drink) {
+    public void makeOrder() {
+        Cuisine cuisine = chooseCuisine();
+        Lunch lunch = cuisine == null ? null : chooseLunch(cuisine);
+        Drink drink = chooseDrink();
         order = new OrderBuilder().lunch(lunch).drink(drink).build();
-        System.out.println("Your order are: " + lunch.getCourse() + " " + lunch.getDessert() + " " + drink.getDrinkItem());
     }
 
-    private Lunch createLunch(CourseItem courseItem, DessertItem dessertItem) {
-        Lunch lunch = new LunchBuilder().course(courseItem).dessert(dessertItem).build();
-        return lunch;
+    private Cuisine chooseCuisine() {
+        view.printCuisines();
+        int cuisineCount = view.getCuisineIndex();
+        return cuisineCount == 0 ? null : menu.getCuisines().get(cuisineCount - 1);
     }
 
-    private Drink createDrink(DrinkItem drinkItem){
-        Drink drink = new DrinkBuilder().drink(drinkItem).build();
-        return drink;
+    private Lunch chooseLunch(Cuisine cuisine) {
+        CourseItem courseItem = chooseCourse(cuisine);
+        DessertItem dessertItem = chooseDessert(cuisine);
+        return new LunchBuilder().course(courseItem).dessert(dessertItem).build();
     }
 
-    private Drink createDrinkWithAdditionalElem(DrinkItem drinkItem, DrinkAdditionalItem drinkAdditionalItem){
-        Drink drink = new DrinkBuilder().drink(drinkItem).additionalItem(drinkAdditionalItem).build();
-        return drink;
+    private CourseItem chooseCourse(Cuisine cuisine) {
+        List<CourseItem> courses = cuisine.getCourses();
+        int courseId = view.getCourseId(courses);
+        return courses.get(courseId -1);
+    }
+
+    private DessertItem chooseDessert(Cuisine cuisine) {
+        List<DessertItem> desserts = cuisine.getDeserts();
+        int dessertId = view.getDessertId(desserts);
+        return  desserts.get(dessertId -1);
+    }
+
+    private Drink chooseDrink() {
+        DrinkItem drinkItem = chooseDrinkItem();
+        if (drinkItem != null) {
+            List<DrinkAdditionalItem> additionalItem = chooseAdditionalItem();
+            DrinkBuilder drinkBuilder = new DrinkBuilder().drink(drinkItem);
+            if (!additionalItem.isEmpty()) {
+                for (DrinkAdditionalItem item : additionalItem) {
+                    drinkBuilder.additionalItem(item);
+                }
+            }
+            return drinkBuilder.build();
+        }
+        return null;
+    }
+
+    private DrinkItem chooseDrinkItem() {
+        List<DrinkItem> drinks = menu.getDrinks();
+        int drinkIndex = view.getDrinkId(drinks);
+        return drinkIndex == 0 ? null : drinks.get(drinkIndex - 1);
+    }
+
+    private List<DrinkAdditionalItem> chooseAdditionalItem() {
+        List<DrinkAdditionalItem> drinkAdditionalItems = menu.getDrinkAdditionalItems();
+        List<DrinkAdditionalItem> resultItem = new ArrayList<>();
+        while (true){
+            int index = view.getIdAdditionalItem(drinkAdditionalItems);
+            if (index == 0){
+                break;
+            }else if (!resultItem.contains(drinkAdditionalItems.get(index -1))){
+                resultItem.add(drinkAdditionalItems.get(index -1));
+            }
+        }
+        return resultItem;
     }
 
 }

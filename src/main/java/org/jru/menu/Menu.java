@@ -19,21 +19,19 @@ public class Menu {
     private Cuisine mexicanCuisine;
     private List<DrinkItem> drinks;
     private List<DrinkAdditionalItem> drinkAdditionalItems;
+    private List <Cuisine> cuisines;
 
     public Menu() {
         italianCuisine = new ItalianCuisine();
         polishCuisine = new PolishCuisine();
         mexicanCuisine = new MexicanCuisine();
+        cuisines = List.of(italianCuisine, polishCuisine, mexicanCuisine);
         drinks = Stream.of(DrinkItem.values()).collect(Collectors.toList());
         drinkAdditionalItems = Stream.of(DrinkAdditionalItem.values()).collect(Collectors.toList());
     }
 
     public List<Cuisine> getCuisines() {
-        List<Cuisine> list = new ArrayList<>();
-        list.add(italianCuisine);
-        list.add(polishCuisine);
-        list.add(mexicanCuisine);
-        return list;
+        return cuisines;
     }
 
     public Cuisine getItalianCuisine() {

@@ -1,180 +1,143 @@
 package org.jru;
 
 
+import org.jru.cuisine.Cuisine;
 import org.jru.drink.DrinkAdditionalItem;
 import org.jru.drink.DrinkItem;
 import org.jru.item.CourseItem;
 import org.jru.item.DessertItem;
+import org.jru.item.Item;
+import org.jru.item.PaidItem;
 import org.jru.menu.Menu;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class View {
-    Scanner scanner = new Scanner(System.in);
-    Menu menu = new Menu();
+    private static final String NOTHING = "0. Не нужно";
+    private Scanner scanner = new Scanner(System.in);
+    private Menu menu = new Menu();
 
-    public int displayMenu() {
-        System.out.println("**************** Welcome To our Cafe ****************");
-        System.out.println("=====================================================");
-        System.out.println("           Please choose : ");
-        System.out.println("           1. Eat          ");
-        System.out.println("           2. Drink        ");
-        System.out.println("           3. Eat and drink ");
-        System.out.println("======================================================");
-        System.out.print(" What Do you Want to Order Today? (1/2/3): ");
-        int chooseMenu = scanner.nextInt();
-        return chooseMenu;
-    }
-    
-    public int displayCuisineMenu() {
-        System.out.println("**************** Welcome To our Cafe ****************");
-        System.out.println("=====================================================");
-        System.out.println("           Please choose cuisine:       ");
-        System.out.println("           1. " + menu.getCuisines().get(0).getName());
-        System.out.println("           2. " + menu.getCuisines().get(1).getName());
-        System.out.println("           3. " + menu.getCuisines().get(2).getName());
-        System.out.println("======================================================");
-        System.out.print(" What Do you Want to Order Today? (1/2/3):");
-        int chooseCuisineMenu = scanner.nextInt();
-        return chooseCuisineMenu;
+    public void printPaidItem(List<? extends PaidItem> items) {
+        for (int i = 0; i < items.size(); i++) {
+            PaidItem item = items.get(i);
+            System.out.println((i + 1) + ". " + item.getName() + " " + item.getPrice());
+        }
     }
 
-
-    public CourseItem italianDisplayMenu() {
-        System.out.println("**************** Welcome To our Cafe ****************");
-        System.out.println("=====================================================");
-        System.out.println("           Please choose course:       ");
-        System.out.println("           1. " + menu.getItalianCuisine().getCourses().get(0)
-                + " price: " + menu.getItalianCuisine().getCourses().get(0).getPrice());
-        System.out.println("           2. " + menu.getItalianCuisine().getCourses().get(1)
-                + " price: " + menu.getItalianCuisine().getCourses().get(1).getPrice());
-        System.out.println("           3. " + menu.getItalianCuisine().getCourses().get(2)
-                + " price: " + menu.getItalianCuisine().getCourses().get(2).getPrice());
-        System.out.println("======================================================");
-        System.out.print("          What Do you Want to Order Today? (1/2/3): ");
-        int choose = scanner.nextInt();
-        return menu.getItalianCuisine().getCourses().get(choose-1);
+    public void printItem(List<? extends Item> items) {
+        for (int i = 0; i < items.size(); i++) {
+            Item item = items.get(i);
+            System.out.println((i + 1) + ". " + item.getName());
+        }
     }
 
+    public void showMenu() {
+        System.out.println("Меню:");
+        List<Cuisine> cuisines = menu.getCuisines();
+        cuisines.forEach(this::printCuisineMenu);
 
-    public CourseItem mexicanDisplayMenu() {
-        System.out.println("**************** Welcome To our Cafe ****************");
-        System.out.println("=====================================================");
-        System.out.println("           Please choose course:       ");
-        System.out.println("           1. " + menu.getMexicanCuisine().getCourses().get(0)
-                + " price: " + menu.getMexicanCuisine().getCourses().get(0).getPrice());
-        System.out.println("           2. " + menu.getMexicanCuisine().getCourses().get(1)
-                + " price: " + menu.getMexicanCuisine().getCourses().get(1).getPrice());
-        System.out.println("           3. " + menu.getMexicanCuisine().getCourses().get(2)
-                + " price: " + menu.getMexicanCuisine().getCourses().get(2).getPrice());
-        System.out.println("======================================================");
-        System.out.print("          What Do you Want to Order Today? (1/2/3): ");
-        int choose = scanner.nextInt();
-        return menu.getMexicanCuisine().getCourses().get(choose-1);
     }
 
-    public CourseItem polishDisplayMenu() {
-        System.out.println("**************** Welcome To our Cafe ****************");
-        System.out.println("=====================================================");
-        System.out.println("           Please choose course:       ");
-        System.out.println("           1. " + menu.getPolishCuisine().getCourses().get(0)
-                + " price: " + menu.getPolishCuisine().getCourses().get(0).getPrice());
-        System.out.println("           2. " + menu.getPolishCuisine().getCourses().get(1)
-                + " price: " + menu.getPolishCuisine().getCourses().get(1).getPrice());
-        System.out.println("           3. " + menu.getPolishCuisine().getCourses().get(2)
-                + " price: " + menu.getPolishCuisine().getCourses().get(2).getPrice());
-        System.out.println("======================================================");
-        System.out.print("          What Do you Want to Order Today? (1/2/3): ");
-        int choose = scanner.nextInt();
-        return menu.getPolishCuisine().getCourses().get(choose-1);
+    private void printCuisineMenu(Cuisine cuisine) {
+        System.out.println(cuisine.getName());
+        System.out.println("Courses:");
+        printPaidItem(cuisine.getCourses());
+        System.out.println("Desserts:");
+        printPaidItem(cuisine.getDeserts());
+        System.out.println();
     }
 
-    public int chooseDrinkMenu() {
-        System.out.println("**************** Welcome To our Cafe ****************");
-        System.out.println("=====================================================");
-        System.out.println("  Would you like to choose some adds to your drink : ");
-        System.out.println("           1. Yes          ");
-        System.out.println("           2. No        ");
-        System.out.println("======================================================");
-        System.out.print(" What Do you Want to Order Today? (1/2): ");
-        int chooseMenu = scanner.nextInt();
-        return chooseMenu;
+    public void printCuisines() {
+        System.out.println("Сделайте ваш заказ");
+        System.out.println("Выбирете кухню");
+        System.out.println(NOTHING);
+        List<Cuisine> cuisines = menu.getCuisines();
+        for (int i = 0; i < cuisines.size(); i++) {
+            System.out.println(i + 1 + ". " + cuisines.get(i).getName());
+        }
     }
 
-    public DessertItem italianDisplayDessertMenu() {
-        System.out.println("**************** Welcome To our Cafe ****************");
-        System.out.println("=====================================================");
-        System.out.println("           Please choose course:       ");
-        System.out.println("           1. " + menu.getItalianCuisine().getDeserts().get(0)
-                + " price: " + menu.getItalianCuisine().getDeserts().get(0).getPrice());
-        System.out.println("           2. " + menu.getItalianCuisine().getDeserts().get(1)
-                + " price: " + menu.getItalianCuisine().getDeserts().get(1).getPrice());
-        System.out.println("           3. " + menu.getItalianCuisine().getDeserts().get(2)
-                + " price: " + menu.getItalianCuisine().getDeserts().get(2).getPrice());
-        System.out.println("======================================================");
-        System.out.print("          What Do you Want to Order Today? (1/2/3): ");
-        int choose = scanner.nextInt();
-        return menu.getItalianCuisine().getDeserts().get(choose-1);
+    public int getCuisineIndex() {
+        int cuisineIndex = 0;
+        int cuisineCount = menu.getCuisines().size();
+        while (true) {
+            System.out.println("Введите номер кухни: ");
+            if (scanner.hasNextInt()) {
+                cuisineIndex = scanner.nextInt();
+                if (cuisineIndex >= 0 && cuisineIndex <= cuisineCount + 1) {
+                    break;
+                }
+            }
+        }
+        return cuisineIndex;
     }
 
-    public DessertItem mexicanDisplayDessertMenu() {
-        System.out.println("**************** Welcome To our Cafe ****************");
-        System.out.println("=====================================================");
-        System.out.println("           Please choose course:       ");
-        System.out.println("           1. " + menu.getMexicanCuisine().getDeserts().get(0)
-                + " price: " + menu.getMexicanCuisine().getDeserts().get(0).getPrice());
-        System.out.println("           2. " + menu.getMexicanCuisine().getDeserts().get(1)
-                + " price: " + menu.getMexicanCuisine().getDeserts().get(1).getPrice());
-        System.out.println("           3. " + menu.getMexicanCuisine().getDeserts().get(2)
-                + " price: " + menu.getMexicanCuisine().getDeserts().get(2).getPrice());
-        System.out.println("======================================================");
-        System.out.print("          What Do you Want to Order Today? (1/2/3): ");
-        int choose = scanner.nextInt();
-        return menu.getMexicanCuisine().getDeserts().get(choose-1);
+    public int getCourseId(List<CourseItem> courses) {
+        System.out.println("Выберите основное блюдо");
+        printPaidItem(courses);
+        int courseId = 0;
+        while (true) {
+            System.out.println("Выберете номер: ");
+            if (scanner.hasNextInt()) {
+                courseId = scanner.nextInt();
+                if (courseId > 0 && courseId <= courses.size()) {
+                    break;
+                }
+            }
+        }
+        return courseId;
     }
 
-    public DessertItem polishDisplayDessertMenu() {
-        System.out.println("**************** Welcome To our Cafe ****************");
-        System.out.println("=====================================================");
-        System.out.println("           Please choose course:       ");
-        System.out.println("           1. " + menu.getPolishCuisine().getDeserts().get(0)
-                + " price: " + menu.getPolishCuisine().getDeserts().get(0).getPrice());
-        System.out.println("           2. " + menu.getPolishCuisine().getDeserts().get(1)
-                + " price: " + menu.getPolishCuisine().getDeserts().get(1).getPrice());
-        System.out.println("           3. " + menu.getPolishCuisine().getDeserts().get(2)
-                + " price: " + menu.getPolishCuisine().getDeserts().get(2).getPrice());
-        System.out.println("======================================================");
-        System.out.print("          What Do you Want to Order Today? (1/2/3): ");
-        int choose = scanner.nextInt();
-        return menu.getPolishCuisine().getDeserts().get(choose-1);
+    public int getDessertId(List<DessertItem> desserts) {
+        System.out.println("Выберинет десерт:");
+        printPaidItem(desserts);
+        int dessertId = 0;
+        while (true) {
+            System.out.println("Выберете номер: ");
+            if (scanner.hasNextInt()) {
+                dessertId = scanner.nextInt();
+                if (dessertId > 0 && dessertId <= desserts.size()) {
+                    break;
+                }
+            }
+        }
+        return dessertId;
+    }
+
+    public int getDrinkId(List<DrinkItem> drinks) {
+        System.out.println("Выберите напиток:");
+        System.out.println(NOTHING);
+        printPaidItem(drinks);
+        int drinkId = 0;
+        while (true) {
+            System.out.println("Введите номер напитка");
+            if (scanner.hasNextInt()) {
+                drinkId = scanner.nextInt();
+                if (drinkId >= 0 && drinkId <= drinks.size()) {
+                    break;
+                }
+            }
+        }
+        return drinkId;
+    }
+
+    public int getIdAdditionalItem(List<DrinkAdditionalItem> additionalItems) {
+        System.out.println("Вы можете добавить в напиток");
+        System.out.println(NOTHING);
+        printItem(additionalItems);
+        int additionalItemId = 0;
+        while (true) {
+            System.out.println("Введите номер добавки:");
+            if (scanner.hasNextInt()) {
+                additionalItemId = scanner.nextInt();
+                if (additionalItemId >= 0 && additionalItemId <= additionalItems.size() + 1) {
+                    break;
+                }
+            }
+        }
+        return additionalItemId;
     }
 
 
-    public DrinkItem displayDrinkMenu() {
-        System.out.println("**************** Welcome To our Cafe ****************");
-        System.out.println("=====================================================");
-        System.out.println("           Please choose drink:       ");
-        System.out.println("           1. " + menu.getDrinks().get(0)
-                + " price: " + menu.getDrinks().get(0).getPrice());
-        System.out.println("           2. " + menu.getDrinks().get(1)
-                + " price: " + menu.getDrinks().get(1).getPrice());
-        System.out.println("           3. " + menu.getDrinks().get(2)
-                + " price: " + menu.getDrinks().get(2).getPrice());
-        System.out.println("======================================================");
-        System.out.print("          What Do you Want to Order Today? (1/2/3): ");
-        int choose = scanner.nextInt();
-        return menu.getDrinks().get(choose-1);
-    }
-
-    public DrinkAdditionalItem displayAdditionalDrinkMenu() {
-        System.out.println("**************** Welcome To our Cafe ****************");
-        System.out.println("=====================================================");
-        System.out.println("           Please choose additional to drink:       ");
-        System.out.println("           1. " + menu.getDrinkAdditionalItems().get(0));
-        System.out.println("           2. " + menu.getDrinkAdditionalItems().get(1));
-        System.out.println("======================================================");
-        System.out.print("          What Do you Want to Order Today? (1/2): ");
-        int choose = scanner.nextInt();
-        return menu.getDrinkAdditionalItems().get(choose-1);
-    }
 }
